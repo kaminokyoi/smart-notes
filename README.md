@@ -8,7 +8,7 @@ A personal **note-taking web app** built with **Django**. Users sign up, log in 
 
 - User registration, login and logout (Django authentication)
 - Landing page and a private notes area
-- Each user sees only their own notes in the list
+- Notes are private: only their owner can list, view, edit or delete them (other users get a 404, anonymous visitors are redirected to the login page)
 - Create, view, edit and delete notes
 - Tailwind CSS + daisyUI styling through `django-tailwind`
 - `django-browser-reload` for auto-reload in development
@@ -68,9 +68,8 @@ In a second terminal, run `python manage.py tailwind start` to rebuild the CSS w
 
 > `NPM_BIN_PATH` in `smartnotes/settings.py` currently points to a Windows install of npm. Update it to match your machine (for example `/usr/bin/npm`).
 
-## Known limitations / next steps
+## Possible improvements
 
-- The detail, edit and delete views do not yet check that the note belongs to the logged-in user — adding ownership checks (and `LoginRequiredMixin`) is the next step
 - Environment-based settings (secret key, `DEBUG`, allowed hosts)
 - Automated tests
 - Search and tags for notes

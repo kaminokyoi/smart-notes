@@ -8,6 +8,17 @@ from .models import Notes
 from django.shortcuts import redirect
 
 # Create your views here.
+class OwnNotesMixin(LoginRequiredMixin):
+    """Require a logged-in user and restrict access to the notes they own.
+
+    Requesting another user's note returns a 404 instead of exposing it.
+    """
+    login_url = '/login'
+
+    def get_queryset(self):
+        return Notes.objects.filter(user=self.request.user)
+
+
 class SignupView(CreateView):
     form_class = UserCreationForm
     template_name = 'home/register.html'
@@ -18,17 +29,18 @@ class SignupView(CreateView):
             return redirect('notes.list')
         return super().get(request, *args, **kwargs)
 
-class NotesDeleteView(DeleteView):
+class NotesDeleteView(OwnNotesMixin, DeleteView):
     model = Notes
     success_url = '/notes'
     template_name = 'notes/notes_delete.html'
 
-class NotesUpdateView(UpdateView):
+class NotesUpdateView(OwnNotesMixin, UpdateView):
     model = Notes
     success_url = '/notes'
     form_class = NotesForm
 
 class NotesCreateView(LoginRequiredMixin, CreateView):
+    login_url = '/login'
     model = Notes
     success_url = '/notes'
     form_class = NotesForm
@@ -49,7 +61,7 @@ class NoteListView(LoginRequiredMixin, ListView):
         return self.request.user.notes.all()
 
 
-class NoteDetailView(DetailView):
+class NoteDetailView(OwnNotesMixin, DetailView):
     model = Notes
     context_object_name = 'note'
     template_name = 'notes/notes_detail.html'
