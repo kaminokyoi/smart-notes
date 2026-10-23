@@ -52,8 +52,8 @@ theme/        Tailwind app (sources in theme/static_src)
 Requirements: Python 3.10+ and Node.js / npm (for Tailwind).
 
 ```bash
-git clone <repo-url>
-cd <repo-folder>
+git clone https://github.com/kaminokyoi/smart-notes.git
+cd smart-notes
 
 python -m venv .venv
 source .venv/bin/activate        # Windows: .venv\Scripts\activate
